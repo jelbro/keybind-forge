@@ -10,7 +10,7 @@
   // Measure the actual keyboard viewport: the number row is 13 standard
   // keys plus a wide Backspace, 13 gaps and the keyboard's own padding.
   const proposed=(width-13*5-9)/(13+1.828125);
-  const keySize=Math.min(99,Math.max(50,proposed));
+  const keySize=Math.min(140,Math.max(56,proposed));
   d.closest('.workspace-grid')?.style.setProperty('--kbf-key-width',keySize.toFixed(1)+'px');
  }
  window.addEventListener('load',()=>{
