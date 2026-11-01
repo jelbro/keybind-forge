@@ -1,109 +1,96 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en-GB">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="color-scheme" content="dark" />
-  <meta name="theme-color" content="#1b130e" />
-  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
-  <title>Keybind Forge — WoW Forever Keybinding Planner</title>
-  <meta name="description" content="Plan your WoW Forever keybinds with an interactive keyboard, spell library, ergonomic suggestions and in-game addon export." />
-  <link rel="stylesheet" href="assets/css/styles.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="dark" name="color-scheme"/>
+<meta content="#1b130e" name="theme-color"/>
+<link href="assets/images/favicon.svg" rel="icon" type="image/svg+xml"/>
+<title>Keybind Forge — WoW Forever Keybinding Planner</title>
+<meta content="Plan your WoW Forever keybinds with an interactive keyboard, spell library, ergonomic suggestions and in-game addon export." name="description"/>
+<link href="assets/css/styles.css" rel="stylesheet"/>
 </head>
 <body class="theme-classic-fantasy">
-  <div class="app-shell">
-    <aside class="sidebar" aria-label="Main navigation">
-      <div class="brand"><span class="brand-symbol">⚔</span><span><strong>KEYBIND<span class="brand-accent">FORGE</span></strong><small>WORLD OF WARCRAFT: FOREVER</small></span></div>
-      <div class="aside-label">WORKSPACE</div>
-      <button class="nav-link is-active" data-nav="planner"><span>▦</span> Keybind planner <span class="nav-dot"></span></button>
-      <button class="nav-link" data-nav="profiles"><span>▤</span> Saved profiles <span id="profile-count" class="nav-count">1</span></button>
-      <button class="nav-link" data-nav="guide"><span>◈</span> Quick start</button>
-      <div class="aside-label secondary-label">HOW IT WORKS</div>
-      <div class="workflow"><span class="step-number">01</span><p>Choose your class, race and spec.</p></div>
-      <div class="workflow"><span class="step-number">02</span><p>Drag abilities onto key slots.</p></div>
-      <div class="workflow"><span class="step-number">03</span><p>Save profiles and export to WoW.</p></div>
-      <div class="sidebar-bottom"><span class="online-dot"></span><span>Saved on this device</span><span class="version-pill">v2.4 · Forever</span></div>
-    </aside>
-    <main class="main-area">
-      <header class="topbar">
-        <div class="breadcrumbs"><span>Workspace</span><span class="breadcrumb-slash">/</span><b>Keybind planner</b></div>
-        <div class="top-actions"><span class="saving-note" id="save-status">● Autosave enabled</span><button class="btn ghost small" id="export-json">↧ Backup JSON</button><button class="btn primary small" id="export-addon">↧ Export Forever Addon</button></div>
-      </header>
-      <div class="page-content">
-        <div class="intro-row"><div><div class="eyebrow">FORGED FOR AZEROTH · WOW FOREVER 1.60.1</div><h1>Build your perfect keybinds<span class="title-period">.</span></h1><p class="subheading">Level-aware class spellbook, active talents and racials from the supplied Forever beta data.</p></div><div class="intro-chip">✦ <span>WoW Forever</span> <b>1.60.1</b></div></div>
-        <section class="character-bar" aria-label="Character setup">
-          <div class="character-heading"><div class="char-mark" id="class-symbol">✦</div><div><strong id="selected-class-label">Mage</strong><span id="selected-profile-label">Character configuration</span></div></div>
-          <div class="char-field"><label for="class-select">CLASS</label><select id="class-select"></select></div>
-          <div class="char-field"><label for="spec-select">SPECIALISATION</label><select id="spec-select"></select></div>
-          <div class="char-field race-field"><label for="race-select">RACE</label><select id="race-select"></select></div><div class="char-field" style="flex:0 0 90px"><label for="level-select">LEVEL</label><select id="level-select"></select></div>
-          <button class="btn outline" id="talents-button">◇ Talents <span id="talent-count" class="pill">0</span></button>
-        </section>
-        <div class="workspace-grid">
-          <div class="center-stack">
-            <section class="panel planner-panel">
-              <div class="panel-top planner-header"><div><div class="tiny-eyebrow">KEYBIND WORKSPACE</div><h2>Keyboard & mouse</h2></div><div class="header-right"><span id="assigned-counter" class="assigned-counter">0 binds assigned</span><button class="icon-button" id="help-keyboard" title="How to bind keys" aria-label="How to bind keys">?</button></div></div>
-              <div class="workspace-toolbar"><span class="toolbar-label">VISIBLE LAYERS</span><div class="toggle-group"><button class="toggle active" data-layer="primary">Normal / Shift</button><button class="toggle" data-layer="secondary">Ctrl / Alt</button></div><button id="clear-selection" class="selection-control">No spell selected</button></div>
-              <div class="defaults-toolbar"><label for="default-preset">Fresh character controls</label><select id="default-preset" aria-label="Forever first-run control preset"><option value="enhanced">Enhanced · A/D strafe</option><option value="classic">Classic · A/D turn</option></select><button type="button" id="reset-fresh-defaults" class="btn outline small" title="Reset this layout to the selected fresh-start baseline">↺ Reset to defaults</button><span class="default-explain">Defaults are shown in <strong>muted gold</strong>; your changes remain saved separately.</span></div>
-              <div class="input-devices" role="group" aria-label="Combined keyboard and mouse keybinding area"><div class="canvas-scroll"><div class="keyboard" id="keyboard" role="region" aria-label="Interactive UK QWERTY keyboard"></div></div>
-              <aside class="mouse-side" aria-label="Mouse input panel"><div class="mouse-side-title">✥ MOUSE INPUTS</div><div class="mouse-easiest-label">★ TIER 1 · EASIEST REACH</div><div class="mouse-keys" id="mouse-keys" aria-label="Mouse bindings"></div></aside></div>
-              
-              <div class="tier-guide"><span>REACH DIFFICULTY</span><div class="tier-tag t1"><i></i><strong>1 · Mouse · EASIEST</strong></div><div class="tier-tag t2"><i></i>2 · Easiest keyboard</div><div class="tier-tag t3"><i></i>3 · Easy keyboard</div><div class="tier-tag t4"><i></i>4 · Moderate</div><div class="tier-tag t5"><i></i>5 · Stretch</div></div>
-            </section>
-          </div>
-            <section class="panel action-library-panel" aria-labelledby="bind-library-title">
-              <div class="panel-top action-library-heading">
-                <div><div class="tiny-eyebrow">YOUR BINDING LIBRARY</div><h2 id="bind-library-title">Abilities &amp; controls</h2></div>
-                <span class="tag tag-muted">Select or drag onto a key at left</span>
-              </div>
-              <div class="action-library-tabs" role="tablist" aria-label="Binding library type">
-                <button type="button" id="tab-abilities" class="action-library-tab active" role="tab" aria-selected="true" aria-controls="pane-abilities" tabindex="0" data-library-tab="abilities"><span class="action-tab-symbol">✦</span> Abilities <span id="ability-total" class="tab-count">0</span></button>
-                <button type="button" id="tab-controls" class="action-library-tab" role="tab" aria-selected="false" aria-controls="pane-controls" tabindex="-1" data-library-tab="controls"><span class="action-tab-symbol">⚙</span> General controls <span id="general-count" class="tab-count">0 assigned</span></button>
-              </div>
-              <div id="pane-abilities" class="action-tab-panel" role="tabpanel" aria-labelledby="tab-abilities">
-                <div class="ability-panel-toolbar">
-                  
-                  <label class="search-box"><span>⌕</span><input id="ability-search" placeholder="Search spells, items or macros..." autocomplete="off" aria-label="Search abilities" /><span class="slash">/</span></label>
-                  <button class="btn outline small" id="add-ability" title="Add custom spell, item or macro">＋ Custom ability</button>
-                </div>
-                <div class="category-list" id="category-list" role="group" aria-label="Ability category filters"></div>
-                <div class="ability-list" id="ability-list"></div>
-                <div class="library-footer">↗ <span>Drag abilities onto the keyboard, or click an ability then its key slot. Hover for spell details.</span></div>
-              </div>
-              <div id="pane-controls" class="action-tab-panel" role="tabpanel" aria-labelledby="tab-controls" hidden>
-                <div class="general-intro-row">
-                  <p class="panel-description">Everyday shortcuts like Map, Bags and Auto Run. Select a command to bind it anywhere, or fill empty default keys.</p>
-                  <button type="button" class="btn primary small" id="apply-general-defaults">＋ Fill empty defaults</button>
-                </div>
-                <div class="general-list" id="general-list"></div>
-                <p class="minor-note">Existing assignments are never overwritten by Fill empty defaults. Fresh-install defaults appear in muted gold on the keyboard.</p>
-              </div>
-            </section>
-        </div>
-        <details class="advanced-tools"><summary>⚒ Recommendations, layout generator, coverage & rotation <span>Expand tools</span></summary><div class="advanced-tools-content">          <div class="right-stack">
-            <section class="panel stat-panel"><div class="tiny-eyebrow">BINDING COVERAGE</div><div class="stat-row"><div><strong class="big-number" id="coverage-num">0<span>%</span></strong><p>Available abilities assigned</p></div><div class="ring" id="coverage-ring" style="--progress:0"><span>⌁</span></div></div><div class="stat-track"><span id="stat-progress"></span></div><div class="stat-foot"><span id="bind-stat">0 / 0 abilities</span><span id="tier-stat">0 top-tier binds</span></div></section>
-            <section class="panel recommendation-panel"><div class="panel-top"><div><div class="tiny-eyebrow">ERGONOMIC ASSISTANT</div><h2>Smart suggestions</h2></div><span class="spark">✧</span></div><p class="panel-description">Your custom reach priority: instant mouse reactions, setup wheel binds, front-hand damage and right-side defensives. Normal + Shift only.</p><button class="btn primary" id="generate-full-layout" type="button" style="width:100%;margin:0 0 12px">⚒ Generate Full Layout</button><div id="suggestions" class="suggestion-list"></div><p class="minor-note">Unknown cast times are kept off Mouse 4/5. Generate replaces custom binds only after confirmation; review choices in game.</p></section>
-            <section class="panel warning-panel"><div class="panel-top"><div><div class="tiny-eyebrow">BIND AUDIT</div><h2>Warnings <span class="heading-number" id="warning-count">0</span></h2></div><span class="audit-icon">⚑</span></div><div id="warnings" class="warning-list"></div></section>
-          </div>
-          <div class="rotation-stack">
-            <section class="panel rotation-panel"><div class="panel-top"><div><div class="tiny-eyebrow">PLAYSTYLE REFERENCE</div><h2>Rotation & priorities</h2></div><span class="tag tag-muted">Forever · spec overview</span></div><div class="rotation-tabs"><button data-rotation="single" class="active">Single target</button><button data-rotation="aoe">AoE / multi-target</button><button data-rotation="opener">Opener</button></div><div class="rotation-list" id="rotation-list"></div><p class="rotation-disclaimer">Illustrative spec-level priority notes, not a full talent- or encounter-specific rotation. Verify against in-game WoW Forever tooltips and current guides.</p></section>
-          </div>
-</div></details>
-        <footer class="page-footer"><span>Keybind Forge · WoW Forever edition · v2.4 · Spell data adapted from <a href="https://talentsforever.com" target="_blank" rel="noopener noreferrer">Talents Forever</a> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>, 30 Oct 2026 beta snapshot). Game art © Blizzard Entertainment.</span><span>Your layouts are stored locally in this browser. Export a backup to keep them across devices.</span><span class="icon-credit">Original WoW control artwork: Blizzard Entertainment</span></footer>
-      </div>
-    </main>
-  </div>
-  <div id="toast" class="toast" role="status" aria-live="polite"></div><div id="ability-tooltip" class="ability-tooltip" role="tooltip" hidden></div>
-  <dialog id="profile-dialog" class="modal" aria-labelledby="profiles-heading"><div class="modal-head"><div><div class="tiny-eyebrow">PROFILE LIBRARY</div><h2 id="profiles-heading">Saved layouts</h2></div><button type="button" class="icon-button close-dialog" aria-label="Close saved layouts">×</button></div><p class="modal-desc">Unlimited layouts, saved locally in your browser. Choose, duplicate, rename, or delete.</p><div id="profiles-list" class="profiles-list"></div><section id="profile-editor" class="profile-editor" hidden aria-labelledby="profile-editor-title"><h3 id="profile-editor-title"></h3><p id="profile-editor-description"></p><label id="profile-editor-input-label" for="profile-editor-input">Layout name<input id="profile-editor-input" type="text" maxlength="65" autocomplete="off" /></label><div class="modal-actions"><button type="button" class="btn outline" id="profile-editor-cancel">Cancel</button><button type="button" class="btn primary" id="profile-editor-confirm">Save</button></div></section><div class="modal-actions"><button type="button" class="btn outline" id="import-json">↥ Import JSON</button><button type="button" class="btn outline" id="new-profile">＋ New profile</button><button type="button" class="btn primary close-dialog">Done</button></div></dialog>
-  <dialog id="talent-dialog" class="modal" aria-labelledby="talents-heading"><div class="modal-head"><div><div class="tiny-eyebrow">TALENT-CONDITIONAL SPELLS</div><h2 id="talents-heading">Selected talents</h2></div><button type="button" class="icon-button close-dialog" aria-label="Close selected talents">×</button></div><p class="modal-desc">Tick the active talent-granted abilities from your build. This is a spell availability picker, not a full Forever talent tree.</p><div id="talent-list" class="talent-list"></div><div class="modal-actions"><button type="button" class="btn primary close-dialog">Done</button></div></dialog>
-  <dialog id="custom-dialog" class="modal"><form id="custom-form"><div class="modal-head"><div><div class="tiny-eyebrow">BUILD YOUR ARSENAL</div><h2>Add custom ability</h2></div><button type="button" class="icon-button close-dialog" aria-label="Close dialog">×</button></div><p class="modal-desc">For custom spells, usable items, or macros already created in-game. The name is used by the companion addon export.</p><div class="form-stack"><label>Ability / in-game name<input name="name" required maxlength="90" placeholder="e.g. Hearthstone or MyKickMacro" /></label><label>Category<select name="category" id="custom-category"></select></label><label>Action type<select name="type"><option value="spell">Spell</option><option value="item">Item</option><option value="macro">Existing in-game macro</option></select></label><label>Urgency<select name="priority"><option value="1">High · quick access</option><option value="2" selected>Medium</option><option value="3">Low · occasional</option></select></label></div><div class="modal-actions"><button type="button" class="btn outline close-dialog">Cancel</button><button type="submit" class="btn primary">Add ability</button></div></form></dialog>
-  <dialog id="guide-dialog" class="modal" aria-labelledby="guide-heading"><div class="modal-head"><div><div class="tiny-eyebrow">QUICK START</div><h2 id="guide-heading">Build your layout</h2></div><button type="button" class="icon-button close-dialog" aria-label="Close quick start">×</button></div><ol class="guide-list"><li><b>Choose your WoW Forever character</b> in the top configuration row. Layouts are organised by class, specialisation and race; create extra named profiles whenever you want alternatives.</li><li><b>Pick your fresh-install control preset</b>: Classic uses keyboard turning, while Enhanced uses A/D strafing. Gold labels show controls already bound by default. Reset to defaults restores the reference view for this layout.</li><li><b>Hover or focus a spell</b> for its illustrated tooltip, cast time and cooldown. Verified spell values are identified; unverified values are labelled as reference or to check in-game.</li><li><b>Tick talent spells</b> that your build actually has, then use the Abilities tab below the keyboard to drag cards onto Normal or Shift key slots. Use General Controls for interface shortcuts. Switch the visible layer to reach Ctrl and Alt.</li><li><b>Watch the reach colours.</b> Tier 1 mouse inputs are easiest; Tier 5 keys are a stretch. WASD movement slots display warnings if replaced.</li><li><b>Apply a suggestion</b> from the right to quickly assign an unbound ability to an open comfortable key.</li><li><b>Export WoW Addon</b> to download a companion addon ZIP. Install it into WoW Forever and run <code>/kbf preview</code> and <code>/kbf apply</code> outside combat. Verify each binding in game.</li></ol><p class="modal-desc">Forever spell data is included in the app automatically; no import or connection is needed to read its records. The planner still uses a curated ability list, enhanced with spell IDs, icons, and tooltip records from the included beta export. Fresh-install controls may vary with Classic/Enhanced presets, and spell cast/cooldown reference values should be confirmed in-game. Rotations are examples, not personalised advice.</p><div class="modal-actions"><button type="button" class="btn primary close-dialog">Start planning</button></div></dialog>
-  <dialog id="confirm-dialog" class="modal" aria-labelledby="confirm-heading"><div class="modal-head"><div><div class="tiny-eyebrow">CONFIRM CHANGE</div><h2 id="confirm-heading">Confirm binding</h2></div><button type="button" class="icon-button close-dialog" aria-label="Cancel change">×</button></div><p id="confirm-message" class="modal-desc"></p><div class="modal-actions"><button type="button" class="btn outline close-dialog">Cancel</button><button type="button" class="btn primary" id="confirm-accept">Confirm</button></div></dialog>
-  <dialog id="category-dialog" class="modal" aria-labelledby="category-heading"><form id="category-form"><div class="modal-head"><div><div class="tiny-eyebrow">CUSTOM CATEGORIES</div><h2 id="category-heading">New ability category</h2></div><button type="button" class="icon-button close-dialog" aria-label="Close category editor">×</button></div><p class="modal-desc">Give this category a name. You can use it for custom spells, items and macros.</p><div class="form-stack"><label>Category name<input id="category-name" name="category" maxlength="35" required placeholder="e.g. Consumables" autocomplete="off" /></label></div><div class="modal-actions"><button type="button" class="btn outline close-dialog">Cancel</button><button type="submit" class="btn primary">Create category</button></div></form></dialog>
-  <input id="json-file" type="file" accept="application/json,.json" hidden />
-  <script src="assets/js/game-data.js"></script>
+<div class="app-shell">
+
+<main class="main-area">
+<header class="topbar">
+<div class="topbar-site-brand"><span aria-hidden="true" class="brand-symbol">⚔</span><strong>KEYBIND <span>FORGE</span></strong><small>WoW Forever · Keybind Planner</small></div>
+<div class="top-actions"><button class="btn ghost small nav-top" data-nav="profiles" type="button">▤ Profiles <span id="profile-count">1</span></button><button class="btn ghost small nav-top" data-nav="guide" type="button">? Help</button><span class="saving-note" id="save-status">● Autosave enabled</span></div>
+</header>
+<div class="page-content">
+
+<section aria-label="Character setup" class="character-bar compact-character-bar">
+<div class="character-heading"><div class="char-mark" id="class-symbol">✦</div><div><strong id="selected-class-label">Mage</strong><span id="selected-profile-label">Character configuration</span></div></div>
+<div class="char-field"><label for="class-select">CLASS</label><select id="class-select"></select></div>
+<div class="char-field"><label for="spec-select">SPECIALISATION</label><select id="spec-select"></select></div>
+<div class="char-field race-field"><label for="race-select">RACE</label><select id="race-select"></select></div><div class="char-field" style="flex:0 0 90px"><label for="level-select">LEVEL</label><select id="level-select"></select></div>
+<button class="btn outline" id="talents-button">◇ Talents <span class="pill" id="talent-count">0</span></button>
+</section>
+<div class="workspace-grid">
+<div class="center-stack">
+<section class="panel planner-panel">
+<div class="panel-top planner-header"><div><div class="tiny-eyebrow">KEYBIND WORKSPACE</div><h2>Keyboard &amp; mouse</h2></div><div class="header-right"><span class="assigned-counter" id="assigned-counter">0 binds assigned</span><button aria-label="How to bind keys" class="icon-button" id="help-keyboard" title="How to bind keys">?</button></div></div>
+<div class="workspace-toolbar"><span class="toolbar-label">VISIBLE LAYERS</span><div class="toggle-group"><button class="toggle active" data-layer="primary">Normal / Shift</button><button class="toggle" data-layer="secondary">Ctrl / Alt</button><button class="toggle" data-layer="all" title="Show all modifiers to drag between Normal, Shift, Ctrl and Alt">All 4</button></div><button class="selection-control" id="clear-selection">No spell selected</button></div>
+
+<div aria-label="Combined keyboard and mouse keybinding area" class="input-devices" role="group"><div class="canvas-scroll"><div aria-label="Interactive UK QWERTY keyboard" class="keyboard" id="keyboard" role="region"></div></div>
+<aside aria-label="Mouse input panel" class="mouse-side"><div class="mouse-side-title">✥ MOUSE INPUTS</div><div class="mouse-easiest-label">★ TIER 1 · EASIEST REACH</div><div aria-label="Mouse bindings" class="mouse-keys" id="mouse-keys"></div></aside></div>
+
+<div aria-label="Remove a binding by dropping it here" class="unbind-dropzone" id="unbind-dropzone" role="region"><span aria-hidden="true">↙</span> Drag a bound key here to <strong>unassign it</strong> · Drag between keyboard or mouse slots to <strong>move or swap</strong></div><details class="keyboard-settings"><summary>⚙ Keyboard defaults &amp; reach colour legend</summary><div class="defaults-toolbar"><label for="default-preset">Fresh character controls</label><select aria-label="Forever first-run control preset" id="default-preset"><option value="enhanced">Enhanced · A/D strafe</option><option value="classic">Classic · A/D turn</option></select><button class="btn outline small" id="reset-fresh-defaults" title="Reset this layout to the selected fresh-start baseline" type="button">↺ Reset to defaults</button><span class="default-explain">Defaults are shown in <strong>muted gold</strong>; your changes remain saved separately.</span></div><div class="tier-guide"><span>REACH DIFFICULTY</span><div class="tier-tag t1"><i></i><strong>1 · Mouse · EASIEST</strong></div><div class="tier-tag t2"><i></i>2 · Easiest keyboard</div><div class="tier-tag t3"><i></i>3 · Easy keyboard</div><div class="tier-tag t4"><i></i>4 · Moderate</div><div class="tier-tag t5"><i></i>5 · Stretch</div></div></details><div class="keyboard-bottom-actions"><span>Layouts autosave in your browser. Back up before changing devices.</span><button class="btn outline small" id="export-json" type="button">↧ Backup JSON</button><button class="btn primary small" id="export-addon" type="button">↧ Export Forever Addon</button></div></section>
+</div>
+<section aria-labelledby="bind-library-title" class="panel action-library-panel">
+<div class="panel-top action-library-heading">
+<div><div class="tiny-eyebrow">YOUR BINDING LIBRARY</div><h2 id="bind-library-title">Abilities &amp; controls</h2></div>
+<span class="tag tag-muted">Drag to a key or mouse slot</span>
+</div>
+<div aria-label="Binding library type" class="action-library-tabs" role="tablist">
+<button aria-controls="pane-abilities" aria-selected="true" class="action-library-tab active" data-library-tab="abilities" id="tab-abilities" role="tab" tabindex="0" type="button"><span class="action-tab-symbol">✦</span> Abilities <span class="tab-count" id="ability-total">0</span></button>
+<button aria-controls="pane-controls" aria-selected="false" class="action-library-tab" data-library-tab="controls" id="tab-controls" role="tab" tabindex="-1" type="button"><span class="action-tab-symbol">⚙</span> General controls <span class="tab-count" id="general-count">0 assigned</span></button>
+</div>
+<div aria-labelledby="tab-abilities" class="action-tab-panel" id="pane-abilities" role="tabpanel">
+<div class="ability-panel-toolbar">
+<label class="search-box"><span>⌕</span><input aria-label="Search abilities" autocomplete="off" id="ability-search" placeholder="Search spells, items or macros..."/><span class="slash">/</span></label>
+<button class="btn outline small" id="add-ability" title="Add custom spell, item or macro">＋ Custom ability</button>
+</div>
+<div aria-label="Ability category filters" class="category-list" id="category-list" role="group"></div>
+<div class="ability-list" id="ability-list"></div>
+<div class="library-footer">↗ <span>Drag an ability to any keyboard or mouse slot. Drag a bound key onto another to move or swap; drop it below to unassign.</span></div>
+</div>
+<div aria-labelledby="tab-controls" class="action-tab-panel" hidden="" id="pane-controls" role="tabpanel">
+<div class="general-intro-row">
+<p class="panel-description">Everyday shortcuts like Map, Bags and Auto Run. Select a command to bind it anywhere, or fill empty default keys.</p>
+<button class="btn primary small" id="apply-general-defaults" type="button">＋ Fill empty defaults</button>
+</div>
+<div class="general-list" id="general-list"></div>
+<p class="minor-note">Existing assignments are never overwritten by Fill empty defaults. Fresh-install defaults appear in muted gold on the keyboard.</p>
+</div>
+</section>
+</div>
+<details class="advanced-tools"><summary>⚒ Recommendations, layout generator, coverage &amp; rotation <span>Expand tools</span></summary><div class="advanced-tools-content"> <div class="right-stack">
+<section class="panel stat-panel"><div class="tiny-eyebrow">BINDING COVERAGE</div><div class="stat-row"><div><strong class="big-number" id="coverage-num">0<span>%</span></strong><p>Available abilities assigned</p></div><div class="ring" id="coverage-ring" style="--progress:0"><span>⌁</span></div></div><div class="stat-track"><span id="stat-progress"></span></div><div class="stat-foot"><span id="bind-stat">0 / 0 abilities</span><span id="tier-stat">0 top-tier binds</span></div></section>
+<section class="panel recommendation-panel"><div class="panel-top"><div><div class="tiny-eyebrow">ERGONOMIC ASSISTANT</div><h2>Smart suggestions</h2></div><span class="spark">✧</span></div><p class="panel-description">Your custom reach priority: instant mouse reactions, setup wheel binds, front-hand damage and right-side defensives. Normal + Shift only.</p><button class="btn primary" id="generate-full-layout" style="width:100%;margin:0 0 12px" type="button">⚒ Generate Full Layout</button><div class="suggestion-list" id="suggestions"></div><p class="minor-note">Unknown cast times are kept off Mouse 4/5. Generate replaces custom binds only after confirmation; review choices in game.</p></section>
+<section class="panel warning-panel"><div class="panel-top"><div><div class="tiny-eyebrow">BIND AUDIT</div><h2>Warnings <span class="heading-number" id="warning-count">0</span></h2></div><span class="audit-icon">⚑</span></div><div class="warning-list" id="warnings"></div></section>
+</div>
+<div class="rotation-stack">
+<section class="panel rotation-panel"><div class="panel-top"><div><div class="tiny-eyebrow">PLAYSTYLE REFERENCE</div><h2>Rotation &amp; priorities</h2></div><span class="tag tag-muted">Forever · spec overview</span></div><div class="rotation-tabs"><button class="active" data-rotation="single">Single target</button><button data-rotation="aoe">AoE / multi-target</button><button data-rotation="opener">Opener</button></div><div class="rotation-list" id="rotation-list"></div><p class="rotation-disclaimer">Illustrative spec-level priority notes, not a full talent- or encounter-specific rotation. Verify against in-game WoW Forever tooltips and current guides.</p></section>
+</div>
+</div></details><details class="about-tools"><summary>About Keybind Forge and spell data</summary><div class="intro-row"><div><div class="eyebrow">FORGED FOR AZEROTH · WOW FOREVER 1.60.1</div><h1>Build your perfect keybinds<span class="title-period">.</span></h1><p class="subheading">Level-aware class spellbook, active talents and racials from the supplied Forever beta data.</p></div><div class="intro-chip">✦ <span>WoW Forever</span> <b>1.60.1</b></div></div></details>
+<footer class="page-footer"><span>Keybind Forge · WoW Forever edition · v2.5 · Spell data adapted from <a href="https://talentsforever.com" rel="noopener noreferrer" target="_blank">Talents Forever</a> (<a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer" target="_blank">CC BY 4.0</a>, 30 Oct 2026 beta snapshot). Game art © Blizzard Entertainment.</span><span>Your layouts are stored locally in this browser. Export a backup to keep them across devices.</span><span class="icon-credit">Original WoW control artwork: Blizzard Entertainment</span></footer>
+</div>
+</main>
+</div>
+<div aria-live="polite" class="toast" id="toast" role="status"></div><div class="ability-tooltip" hidden="" id="ability-tooltip" role="tooltip"></div>
+<dialog aria-labelledby="profiles-heading" class="modal" id="profile-dialog"><div class="modal-head"><div><div class="tiny-eyebrow">PROFILE LIBRARY</div><h2 id="profiles-heading">Saved layouts</h2></div><button aria-label="Close saved layouts" class="icon-button close-dialog" type="button">×</button></div><p class="modal-desc">Unlimited layouts, saved locally in your browser. Choose, duplicate, rename, or delete.</p><div class="profiles-list" id="profiles-list"></div><section aria-labelledby="profile-editor-title" class="profile-editor" hidden="" id="profile-editor"><h3 id="profile-editor-title"></h3><p id="profile-editor-description"></p><label for="profile-editor-input" id="profile-editor-input-label">Layout name<input autocomplete="off" id="profile-editor-input" maxlength="65" type="text"/></label><div class="modal-actions"><button class="btn outline" id="profile-editor-cancel" type="button">Cancel</button><button class="btn primary" id="profile-editor-confirm" type="button">Save</button></div></section><div class="modal-actions"><button class="btn outline" id="import-json" type="button">↥ Import JSON</button><button class="btn outline" id="new-profile" type="button">＋ New profile</button><button class="btn primary close-dialog" type="button">Done</button></div></dialog>
+<dialog aria-labelledby="talents-heading" class="modal" id="talent-dialog"><div class="modal-head"><div><div class="tiny-eyebrow">TALENT-CONDITIONAL SPELLS</div><h2 id="talents-heading">Selected talents</h2></div><button aria-label="Close selected talents" class="icon-button close-dialog" type="button">×</button></div><p class="modal-desc">Tick the active talent-granted abilities from your build. This is a spell availability picker, not a full Forever talent tree.</p><div class="talent-list" id="talent-list"></div><div class="modal-actions"><button class="btn primary close-dialog" type="button">Done</button></div></dialog>
+<dialog class="modal" id="custom-dialog"><form id="custom-form"><div class="modal-head"><div><div class="tiny-eyebrow">BUILD YOUR ARSENAL</div><h2>Add custom ability</h2></div><button aria-label="Close dialog" class="icon-button close-dialog" type="button">×</button></div><p class="modal-desc">For custom spells, usable items, or macros already created in-game. The name is used by the companion addon export.</p><div class="form-stack"><label>Ability / in-game name<input maxlength="90" name="name" placeholder="e.g. Hearthstone or MyKickMacro" required=""/></label><label>Category<select id="custom-category" name="category"></select></label><label>Action type<select name="type"><option value="spell">Spell</option><option value="item">Item</option><option value="macro">Existing in-game macro</option></select></label><label>Urgency<select name="priority"><option value="1">High · quick access</option><option selected="" value="2">Medium</option><option value="3">Low · occasional</option></select></label></div><div class="modal-actions"><button class="btn outline close-dialog" type="button">Cancel</button><button class="btn primary" type="submit">Add ability</button></div></form></dialog>
+<dialog aria-labelledby="guide-heading" class="modal" id="guide-dialog"><div class="modal-head"><div><div class="tiny-eyebrow">QUICK START</div><h2 id="guide-heading">Build your layout</h2></div><button aria-label="Close quick start" class="icon-button close-dialog" type="button">×</button></div><ol class="guide-list"><li>Choose your WoW Forever character in the top configuration row. Layouts are organised by class, specialisation and race; create extra named profiles whenever you want alternatives.</li><li>Pick your fresh-install control preset: Classic uses keyboard turning, while Enhanced uses A/D strafing. Gold labels show controls already bound by default. Reset to defaults restores the reference view for this layout.</li><li>Hover or focus a spell for its illustrated tooltip, cast time and cooldown. Verified spell values are identified; unverified values are labelled as reference or to check in-game.</li><li>Tick talent spells that your build actually has, then use the Abilities tab to the right of the keyboard to drag cards onto Normal or Shift key slots. Use General Controls for interface shortcuts. Switch the visible layer to reach Ctrl and Alt.</li><li>Watch the reach colours. Tier 1 mouse inputs are easiest; Tier 5 keys are a stretch. WASD movement slots display warnings if replaced.</li><li>Apply a suggestion from the tools below to quickly assign an unbound ability to an open comfortable key.</li><li>Export WoW Addon to download a companion addon ZIP. Install it into WoW Forever and run /kbf preview and /kbf apply outside combat. Verify each binding in game.</li></ol><p class="modal-desc">Forever spell data is included in the app automatically; no import or connection is needed to read its records. The class spellbook, spell ranks and active talent ability availability use the bundled Forever beta export; ergonomic groups and rotation suggestions are Keybind Forge interpretations. Fresh-install controls may vary with Classic/Enhanced presets, and spell cast/cooldown reference values should be confirmed in-game. Rotations are examples, not personalised advice.</p><div class="modal-actions"><button class="btn primary close-dialog" type="button">Start planning</button></div></dialog>
+<dialog aria-labelledby="confirm-heading" class="modal" id="confirm-dialog"><div class="modal-head"><div><div class="tiny-eyebrow">CONFIRM CHANGE</div><h2 id="confirm-heading">Confirm binding</h2></div><button aria-label="Cancel change" class="icon-button close-dialog" type="button">×</button></div><p class="modal-desc" id="confirm-message"></p><div class="modal-actions"><button class="btn outline close-dialog" type="button">Cancel</button><button class="btn primary" id="confirm-accept" type="button">Confirm</button></div></dialog>
+<dialog aria-labelledby="category-heading" class="modal" id="category-dialog"><form id="category-form"><div class="modal-head"><div><div class="tiny-eyebrow">CUSTOM CATEGORIES</div><h2 id="category-heading">New ability category</h2></div><button aria-label="Close category editor" class="icon-button close-dialog" type="button">×</button></div><p class="modal-desc">Give this category a name. You can use it for custom spells, items and macros.</p><div class="form-stack"><label>Category name<input autocomplete="off" id="category-name" maxlength="35" name="category" placeholder="e.g. Consumables" required=""/></label></div><div class="modal-actions"><button class="btn outline close-dialog" type="button">Cancel</button><button class="btn primary" type="submit">Create category</button></div></form></dialog>
+<input accept="application/json,.json" hidden="" id="json-file" type="file"/>
+<script src="assets/js/game-data.js"></script>
 <script src="assets/js/forever-data.js"></script>
 <script src="assets/js/app.js"></script>
-
 <script src="assets/js/keyboard-sizing.js"></script>
 </body>
 </html>

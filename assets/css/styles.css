@@ -1179,3 +1179,77 @@ body.theme-classic-fantasy .key-slot:focus-visible{outline:2px solid #f0d387;out
 .advanced-tools-content>.rotation-stack{min-width:0}
 @media(max-width:1179px){.workspace-grid{display:flex!important;flex-direction:column!important}.workspace-grid>.center-stack,.workspace-grid>.action-library-panel{width:100%!important}.advanced-tools-content{grid-template-columns:1fr}}
 @media(max-width:720px){.workspace-grid>.action-library-panel .general-list{grid-template-columns:1fr!important}.advanced-tools-content>.right-stack{grid-template-columns:1fr}}
+
+/* v2.5 — zero-sidebar, keyboard-first workspace */
+.theme-classic-fantasy .app-shell{display:block!important;width:100%;min-width:0}
+.theme-classic-fantasy .main-area{width:100%;max-width:100%;min-width:0;margin:0}
+.theme-classic-fantasy .topbar{min-height:52px;height:auto;padding:8px clamp(10px,1.2vw,24px);gap:12px}
+.theme-classic-fantasy .topbar-site-brand{display:flex;align-items:center;gap:9px;white-space:nowrap}
+.theme-classic-fantasy .topbar-site-brand .brand-symbol{font-size:23px;color:#e5b96b}
+.theme-classic-fantasy .topbar-site-brand strong{font-size:16px;letter-spacing:.08em;color:#f9e3b1}
+.theme-classic-fantasy .topbar-site-brand strong span{color:#e0ad54}
+.theme-classic-fantasy .topbar-site-brand small{color:#a28a6c;font-size:10px;letter-spacing:.02em;margin-left:7px}
+.theme-classic-fantasy .top-actions{display:flex;align-items:center;gap:6px}
+.theme-classic-fantasy .top-actions .saving-note{margin:0 8px}
+.theme-classic-fantasy .page-content{padding:10px clamp(7px,.85vw,20px) 20px!important;max-width:none}
+.theme-classic-fantasy .compact-character-bar{padding:7px 11px!important;margin:0 0 9px!important;gap:8px;align-items:center}
+.theme-classic-fantasy .compact-character-bar .char-field{min-width:0}
+.theme-classic-fantasy .compact-character-bar .character-heading{margin-right:10px}
+.theme-classic-fantasy .workspace-grid{gap:10px!important}
+@media(min-width:1350px){
+ .theme-classic-fantasy .workspace-grid{display:grid!important;grid-template-columns:minmax(0,1fr) clamp(360px,25vw,470px)!important;align-items:start!important}
+ .theme-classic-fantasy .workspace-grid>.center-stack{grid-column:1!important;grid-row:1!important;min-width:0!important}
+ .theme-classic-fantasy .workspace-grid>.action-library-panel{grid-column:2!important;grid-row:1!important;min-width:0!important}
+}
+@media(max-width:1349px){
+ .theme-classic-fantasy .workspace-grid{display:flex!important;flex-direction:column!important}
+ .theme-classic-fantasy .workspace-grid>.center-stack,.theme-classic-fantasy .workspace-grid>.action-library-panel{width:100%!important}
+}
+.theme-classic-fantasy .workspace-grid>.center-stack .planner-panel{padding:9px!important}
+.theme-classic-fantasy .workspace-grid>.center-stack .planner-header{margin-bottom:5px}
+.theme-classic-fantasy .workspace-grid>.action-library-panel{padding:10px 9px 12px!important}
+.theme-classic-fantasy .workspace-grid>.action-library-panel .ability-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;max-height:min(82vh,1060px)!important;gap:6px!important}
+.theme-classic-fantasy .workspace-grid>.action-library-panel .general-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;max-height:min(82vh,1060px)!important;gap:6px!important}
+.theme-classic-fantasy .workspace-grid>.action-library-panel .ability-card{min-height:58px!important}
+.theme-classic-fantasy .workspace-grid>.action-library-panel .ability-body b{font-size:11px!important}
+.theme-classic-fantasy .workspace-grid>.action-library-panel .ability-body small{font-size:9px!important}
+.theme-classic-fantasy .workspace-grid .key-slot .slot-name{font-size:clamp(10px,.85vw,14px)!important}
+.theme-classic-fantasy .workspace-grid .key-slot .key-slot-art{height:19px!important;width:19px!important;min-width:19px!important}
+.theme-classic-fantasy .workspace-grid .key-slot[draggable="true"]{cursor:grab}
+.theme-classic-fantasy .workspace-grid .key-slot[draggable="true"]:active{cursor:grabbing}
+.theme-classic-fantasy .workspace-grid .key-slot.dragging{opacity:.55;outline:2px dashed #efbb64;outline-offset:-2px}
+.theme-classic-fantasy .workspace-grid .key-slot.drag-over{outline:2px solid #ffda86!important;outline-offset:-2px!important;background:#70512a!important;box-shadow:0 0 0 2px #dca451 inset!important}
+.theme-classic-fantasy .workspace-grid .key-slot .key-mini-art img{pointer-events:none;-webkit-user-drag:none}
+.theme-classic-fantasy .keyboard-settings{border:1px solid #513920;border-radius:8px;margin:7px 0 0;background:#19130e}
+.theme-classic-fantasy .keyboard-settings>summary{cursor:pointer;font-size:11px;font-weight:600;padding:8px 10px;color:#c8a978}
+.theme-classic-fantasy .keyboard-settings .defaults-toolbar{padding:8px 10px!important;margin:0!important}
+.theme-classic-fantasy .keyboard-settings .tier-guide{padding:8px 10px!important;margin:0!important}
+.theme-classic-fantasy .unbind-dropzone{border:1px dashed #74532d;border-radius:7px;padding:7px 12px;margin-top:7px;text-align:center;color:#bca17b;font-size:11px;transition:background .1s,border-color .1s}
+.theme-classic-fantasy .unbind-dropzone strong{color:#e0c491}
+.theme-classic-fantasy .unbind-dropzone.drag-target-remove{background:#613528;border-color:#f1ba69;color:#fff1ce}
+.theme-classic-fantasy .keyboard-bottom-actions{display:flex;justify-content:flex-end;align-items:center;gap:6px;padding:9px 0 0;flex-wrap:wrap}
+.theme-classic-fantasy .keyboard-bottom-actions>span{font-size:10px;color:#9d896b;margin-right:auto}
+.theme-classic-fantasy .about-tools{margin-top:8px;border:1px solid #473421;border-radius:8px;color:#9c866a}
+.theme-classic-fantasy .about-tools>summary{cursor:pointer;padding:9px 15px;font-size:11px}
+.theme-classic-fantasy .about-tools .intro-row{margin:8px 15px 14px}
+.theme-classic-fantasy .about-tools .intro-row h1{font-size:20px}
+.theme-classic-fantasy .advanced-tools{margin-top:10px}
+@media(max-width:700px){
+ .theme-classic-fantasy .topbar-site-brand small,.theme-classic-fantasy .top-actions .saving-note{display:none!important}
+ .theme-classic-fantasy .compact-character-bar .character-heading{width:100%}
+ .theme-classic-fantasy .workspace-grid>.action-library-panel .general-list{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+/* On 1350–1599px desktops, keep the library beside the keyboard while
+   placing mouse inputs below the keyboard so every key can be wider. */
+@media (min-width:1350px) and (max-width:1599px){
+ .theme-classic-fantasy .workspace-grid .input-devices{flex-direction:column!important}
+ .theme-classic-fantasy .workspace-grid .input-devices>.canvas-scroll{width:100%!important;max-width:100%!important;flex:0 0 auto!important}
+ .theme-classic-fantasy .workspace-grid .input-devices>.mouse-side{flex:0 0 auto!important;width:100%!important;max-width:none!important;border:0!important;border-top:1px solid #88643a!important;padding:8px 0 0!important}
+ .theme-classic-fantasy .workspace-grid .input-devices .mouse-keys{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+}
+
+/* Optional four-layer view makes cross-modifier drag-and-drop possible. */
+.theme-classic-fantasy .workspace-grid .keyboard.all-modifiers .keyboard-key{height:148px!important}
+.theme-classic-fantasy .workspace-grid .keyboard.all-modifiers .key-tile-slots{margin-top:17px;gap:3px}
+.theme-classic-fantasy .workspace-grid .mouse-keys.all-modifiers .mouse-card{min-height:150px}
+.theme-classic-fantasy .workspace-grid .mouse-keys.all-modifiers .key-slot{margin:3px 0}

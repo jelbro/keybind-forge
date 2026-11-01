@@ -51,3 +51,17 @@ Official GitHub docs: [configure a publishing source](https://docs.github.com/en
 ## v2.4 layout
 
 The keyboard-first workspace puts the full keyboard and mouse at left and a two-column spell/control library on the right. Recommendations, generator, warnings and rotations are in an expandable section.
+
+## v2.5 changes
+
+- Removed the left navigation bar entirely. Saved Profiles and Quick Start are available in the top header.
+- Enlarged the keyboard-first workspace, kept the two-column ability/control list on the right for wide desktops, and placed keyboard settings, reach legend, exports and recommendations below.
+- Drag any **assigned key or mouse modifier slot** to another slot to **move** an assignment if empty, or **swap** assignments if occupied. This also works with visible fresh-install default actions; the origin default is explicitly cleared when moved.
+- Drag an assigned slot to the **Unassign** strip beneath the keyboard to remove it. Dragging an ability from the right library still works as before.
+- Switch the Normal/Shift ↔ Ctrl/Alt layer to rearrange those modifiers.
+
+## Updating your existing GitHub Pages website
+
+Keep `index.html` and `assets/` at the **repository root**. The easiest safe way to update is via GitHub Desktop: clone your existing `jelbro/keybind-forge` repo, copy the **contents** of this ZIP into the cloned folder (replacing existing files), commit, and push to `main`. Pages then redeploys from its configured branch. For changes through the GitHub website, upload files into the same folders, overwriting matching names. Your saved browser profiles are not part of GitHub; export Backup JSON before changing domains.
+
+To move bindings across different modifier groups, select **All 4** in Visible layers, then drag between Normal, Shift, Ctrl and Alt slots. Return to Normal/Shift for the largest, most readable default view.

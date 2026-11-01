@@ -440,7 +440,7 @@ function renderAbilities(){
   return `<div class="ability-card cat-${esc(a.category)} ${unlocked?'':'locked-talent'} ${ui.selected===a.id?'selected':''}" data-ability="${esc(a.id)}" draggable="${unlocked}" tabindex="0" role="button" aria-label="${esc(a.name)} ${unlocked?'drag or select to bind':'talent not selected'}">${artHTML(a,'ability-glyph art-glyph')}<div class="ability-body"><b title="${esc(a.name)}">${esc(a.name)}</b><small>${esc(a.category)} · ${a.talent?'Talent':a.scope||'Custom'}${!unlocked?' · Not chosen':''}</small><small class="spell-timing">${esc(details(a).cast)} · ${esc(details(a).cd)}</small></div><div class="ability-meta"><i class="dot-urgency ${a.priority===1?'high':''}"></i>${num?`<span class="ability-count">×${num}</span>`:''}</div></div>`;
  }).join(''):'<div class="empty-state">No matching abilities.<br>Choose another category or add a custom one.</div>';
 }
-function displayedMods(){return ui.layer==='primary'?['normal','shift']:['ctrl','alt']}
+function displayedMods(){return ui.layer==='primary'?['normal','shift']:ui.layer==='secondary'?['ctrl','alt']:['normal','shift','ctrl','alt']}
 function miniSlotArtwork(a, isDefault){
  // Action bar placeholders and movement commands are intentionally text-only:
  // they're not actual spells, and displaying a gear icon in every key gets noisy.
@@ -453,9 +453,10 @@ function slotHTML(key,mod){
  const label=ability?ability.name:(id?'Unavailable spell':'Empty');
  const smallName=ability?.name?.replace('Action Bar ','Bar ').replace('Target Nearest Enemy','Target enemy').replace('Target Previous Enemy','Previous enemy').replace('Move forward','Forward').replace('Move backward','Backward').replace('Turn left','Turn ←').replace('Turn right','Turn →').replace('Strafe left','Strafe ←').replace('Strafe right','Strafe →')||'—';
  const art=miniSlotArtwork(ability,isDefault);
- return `<button type="button" class="key-slot ${id?'filled':''} ${isDefault?'default-bind':''} ${mod!=='normal'?'mod-'+mod:''} ${art?'has-mini-art':''} ${movement.has(key)&&mod==='normal'&&!isDefault&&id?'movement-block':''}" data-key="${esc(key)}" data-mod="${mod}" ${ability?.id?`data-tooltip-id="${esc(ability.id)}"`:''} title="${esc(key)} · ${mod.toUpperCase()} — ${esc(label)}${isDefault?' (fresh default)':''}" aria-label="${esc(key)} ${mod}, ${esc(label)}${isDefault?' fresh default':''}"><span class="slot-type" aria-hidden="true">${niceMods[mod]}</span>${art}<span class="slot-name">${esc(smallName)}</span></button>`;
+ return `<button type="button" class="key-slot ${id?'filled':''} ${isDefault?'default-bind':''} ${mod!=='normal'?'mod-'+mod:''} ${art?'has-mini-art':''} ${movement.has(key)&&mod==='normal'&&!isDefault&&id?'movement-block':''}" data-key="${esc(key)}" data-mod="${mod}" draggable="${!!id}" ${ability?.id?`data-tooltip-id="${esc(ability.id)}"`:''} title="${esc(key)} · ${mod.toUpperCase()} — ${esc(label)}${isDefault?' (fresh default)':''}" aria-label="${esc(key)} ${mod}, ${esc(label)}${isDefault?' fresh default':''}"><span class="slot-type" aria-hidden="true">${niceMods[mod]}</span>${art}<span class="slot-name">${esc(smallName)}</span></button>`;
 }
 function renderKeyboard(){
+ $('#keyboard').classList.toggle('all-modifiers',ui.layer==='all');
  $('#keyboard').innerHTML=rows.map(row=>`<div class="key-row">${row.map(obj=>{
   const key=obj.k,enabled=bindable.has(key),t=tiers[key];
   return `<div class="keyboard-key ${obj.w||''} ${t?'tier-'+t:''} ${movement.has(key)?'movement':''} ${enabled?'':'inert-key'}" title="${esc(key)}${t?' — Reach tier '+t:movement.has(key)?' — Movement key':''}"><span class="key-label ${key.length>3?'long':''}">${esc(key==='`'?'`':key)}</span><div class="key-tile-slots">${enabled?displayedMods().map(mod=>slotHTML(key,mod)).join(''):''}</div></div>`;
@@ -463,6 +464,7 @@ function renderKeyboard(){
  document.querySelectorAll('.toggle').forEach(b=>b.classList.toggle('active',b.dataset.layer===ui.layer));
 }
 function renderMouse(){
+ $('#mouse-keys').classList.toggle('all-modifiers',ui.layer==='all');
  $('#mouse-keys').innerHTML=mouse.map(obj=>`<div class="mouse-card"><div class="mouse-label"><span class="mouse-icon">${obj.icon}</span>${obj.label}</div>${displayedMods().map(mod=>slotHTML(obj.key,mod)).join('')}</div>`).join('');
 }
 function renderGeneralControls(){
@@ -636,6 +638,31 @@ function changeSlot(key,mod,id){
  }
  mutate(x=>{x.bindings[slot]=id});notify(`${active.name} → ${formatKey(key,mod)}`);
 }
+// Move or swap a binding between any two physical keyboard or mouse modifier slots.
+// Writing explicit nulls masks the fresh-install default at the old source.
+function moveOrSwapSlots(from,to){
+ if(from===to)return;
+ const [fromKey,fromMod]=from.split('|'),[toKey,toMod]=to.split('|');
+ if(!bindable.has(fromKey)||!bindable.has(toKey)||
+    !Object.prototype.hasOwnProperty.call(mods,fromMod)||
+    !Object.prototype.hasOwnProperty.call(mods,toMod))return;
+ const source=effectiveAt(from),target=effectiveAt(to);
+ if(!source.id)return notify('The source key has no binding to move');
+ if(source.id===target.id)return notify('Both slots already have the same assignment');
+ mutate(x=>{
+  x.bindings[to]=source.id;
+  x.bindings[from]=target.id||null;
+ });
+ const fromName=formatKey(fromKey,fromMod),toName=formatKey(toKey,toMod);
+ notify(target.id?`Swapped ${fromName} ⇄ ${toName}`:`Moved ${source.ability?.name||'binding'} to ${toName}`);
+}
+function unbindDraggedSlot(from){
+ const [key,mod]=from.split('|');
+ if(!bindable.has(key)||!Object.prototype.hasOwnProperty.call(mods,mod))return;
+ const source=effectiveAt(from);if(!source.id)return;
+ mutate(x=>{x.bindings[from]=null});
+ notify(`Unassigned ${formatKey(key,mod)}`);
+}
 function formatKey(key,mod){return (mod==='normal'?'':mod.toUpperCase()+' + ')+({BUTTON4:'Mouse 4',BUTTON5:'Mouse 5',MWU:'Wheel Up',MWD:'Wheel Down'}[key]||key)}
 function slotClick(key,mod){
  const prior=effectiveAt(`${key}|${mod}`).id;
@@ -644,7 +671,7 @@ function slotClick(key,mod){
   showConfirm('Remove keybinding?',`Unassign ${spellById(prior)?.name||'the assigned ability'} from ${formatKey(key,mod)}?`,()=>{
    mutate(x=>{x.bindings[`${key}|${mod}`]=null});notify('Binding removed');
   });
- }else notify('Select an ability from the left, then click this slot');
+ }else notify('Select an ability from the right, then click this slot');
 }
 function setDialog(id){
  const d=$(id);
@@ -834,15 +861,63 @@ function bindEvents(){
   if(e.key==='/' && !e.ctrlKey&&!e.metaKey && !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName) && !document.querySelector('dialog[open]')){e.preventDefault();ui.libraryTab='abilities';renderLibraryTabs();$('#ability-search').focus()}
   if((e.key==='Enter'||e.key===' ') && e.target.matches('.ability-card')){e.preventDefault();e.target.click()}
  });
+ // Native HTML drag-and-drop supports keyboard ↔ keyboard, keyboard ↔ mouse,
+ // every modifier layer, and removal by dragging to the unbind tray.
+ let currentDrag=null;
+ const clearDropFeedback=()=>document.querySelectorAll('.drag-over, .drag-target-remove').forEach(el=>el.classList.remove('drag-over','drag-target-remove'));
  document.addEventListener('dragstart',e=>{
+  const slot=e.target.closest('.key-slot');
+  if(slot){
+   const from=`${slot.dataset.key}|${slot.dataset.mod}`;
+   const value=effectiveAt(from).id;
+   if(!value){e.preventDefault();return}
+   currentDrag={kind:'slot',from,id:value};
+   e.dataTransfer.effectAllowed='move';
+   e.dataTransfer.setData('text/plain',value);
+   e.dataTransfer.setData('application/x-keybind-forge-slot',from);
+   slot.classList.add('dragging');
+   return;
+  }
   const card=e.target.closest('[data-ability]');if(!card)return;
-  const id=card.dataset.ability,a=spellById(id);if(!a||a.talent&&!p().talents.includes(id)){e.preventDefault();return}
-  e.dataTransfer.effectAllowed='copy';e.dataTransfer.setData('text/plain',id);ui.selected=id;card.classList.add('dragging');renderSelection();
+  const id=card.dataset.ability,a=spellById(id);
+  if(!a||a.talent&&!p().talents.includes(id)){e.preventDefault();return}
+  currentDrag={kind:'ability',id};
+  e.dataTransfer.effectAllowed='copy';
+  e.dataTransfer.setData('text/plain',id);
+  ui.selected=id;card.classList.add('dragging');renderSelection();
  });
- document.addEventListener('dragend',e=>e.target.closest('[data-ability]')?.classList.remove('dragging'));
- document.addEventListener('dragover',e=>{const slot=e.target.closest('.key-slot');if(slot){e.preventDefault();e.dataTransfer.dropEffect='copy';slot.classList.add('drag-over')}});
- document.addEventListener('dragleave',e=>e.target.closest('.key-slot')?.classList.remove('drag-over'));
- document.addEventListener('drop',e=>{const slot=e.target.closest('.key-slot');if(!slot)return;e.preventDefault();slot.classList.remove('drag-over');const id=e.dataTransfer.getData('text/plain');changeSlot(slot.dataset.key,slot.dataset.mod,id)});
+ document.addEventListener('dragend',()=>{currentDrag=null;clearDropFeedback();document.querySelectorAll('.dragging').forEach(el=>el.classList.remove('dragging'))});
+ document.addEventListener('dragover',e=>{
+  if(!currentDrag)return;
+  const slot=e.target.closest('.key-slot');
+  const tray=e.target.closest('#unbind-dropzone');
+  if(slot){
+   e.preventDefault();e.dataTransfer.dropEffect=currentDrag.kind==='slot'?'move':'copy';
+   clearDropFeedback();slot.classList.add('drag-over');
+  }else if(tray && currentDrag.kind==='slot'){
+   e.preventDefault();e.dataTransfer.dropEffect='move';
+   clearDropFeedback();tray.classList.add('drag-target-remove');
+  }
+ });
+ document.addEventListener('dragleave',e=>{
+  const slot=e.target.closest('.key-slot');
+  if(slot&&!slot.contains(e.relatedTarget))slot.classList.remove('drag-over');
+  const tray=e.target.closest('#unbind-dropzone');
+  if(tray&&!tray.contains(e.relatedTarget))tray.classList.remove('drag-target-remove');
+ });
+ document.addEventListener('drop',e=>{
+  const slot=e.target.closest('.key-slot');
+  const tray=e.target.closest('#unbind-dropzone');
+  if(!currentDrag||(!slot&&!tray))return;
+  e.preventDefault();
+  const drag=currentDrag;
+  currentDrag=null;
+  clearDropFeedback();document.querySelectorAll('.dragging').forEach(el=>el.classList.remove('dragging'));
+  if(tray){if(drag.kind==='slot')unbindDraggedSlot(drag.from);return}
+  const target=`${slot.dataset.key}|${slot.dataset.mod}`;
+  if(drag.kind==='slot')moveOrSwapSlots(drag.from,target);
+  else changeSlot(slot.dataset.key,slot.dataset.mod,drag.id);
+ });
  $('#clear-selection').addEventListener('click',()=>{ui.selected=null;renderSelection();renderAbilities()});
  $('#talents-button').addEventListener('click',()=>{renderTalents();setDialog('#talent-dialog')});
  $('#talent-list').addEventListener('change',e=>{
